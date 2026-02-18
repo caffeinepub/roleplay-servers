@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Create a community app focused on roleplay with support for servers.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal fantasy parchment-and-quill logo mark with transparent background (rp-logo.dim_512x512.png)\n- Wide fantasy parchment banner background with subtle texture, no text (server-banner-default.dim_1600x400.png)\n- Character portrait placeholder silhouette in a cameo frame style, transparent background (character-portrait-placeholder.dim_512x512.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-sign-in-and-show-authenticated-user-state-display-name-principal-throughout-the-app-ui",
+      "title": "Implement Internet Identity sign-in and show authenticated user state (display name, principal) throughout the app UI.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-main-frontend-navigation-and-pages-server-directory-server-detail-rooms-join-leave-room-view-post-feed-create-post-character-library-create-edit-select-character-and-user-profile-settings-set-display-name",
+      "title": "Build the main frontend navigation and pages: Server Directory, Server Detail (rooms + join/leave), Room View (post feed + create post), Character Library (create/edit/select character), and User Profile/settings (set display name).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enforce-server-membership-roles-owner-admin-member-in-both-backend-authorization-and-frontend-ui-affordances-hide-disable-actions-a-user-cannot-perform",
+      "title": "Enforce server membership roles (Owner/Admin/Member) in both backend authorization and frontend UI affordances (hide/disable actions a user cannot perform).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-content-safety-and-moderation-basics-per-server-allow-owner-admin-to-delete-roleplay-posts-in-their-server-and-to-remove-members-from-the-server",
+      "title": "Add content safety and moderation basics per server: allow Owner/Admin to delete roleplay posts in their server and to remove members from the server.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-coherent-visual-theme-for-a-roleplay-focused-community-app-consistent-colors-typography-spacing-and-component-styling-and-apply-it-across-all-pages-avoid-blue-purple-as-the-primary-palette",
+      "title": "Create a coherent visual theme for a roleplay-focused community app (consistent colors, typography, spacing, and component styling) and apply it across all pages. Avoid blue/purple as the primary palette.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-static-generated-image-assets-logo-default-server-banner-default-character-portrait-placeholder-to-frontend-public-assets-generated-and-render-them-in-the-ui-where-appropriate",
+      "title": "Add static generated image assets (logo, default server banner, default character portrait placeholder) to frontend/public/assets/generated and render them in the UI where appropriate.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Build a community app for roleplay that supports servers (server-based communities).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Create backend data models and stable storage for: users, servers, server membership/roles, roleplay rooms within servers, character profiles, and roleplay posts.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Provide backend APIs to create, list, and view servers; join/leave servers; and manage basic server settings (name, description, optional banner image reference).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Provide backend APIs for roleplay rooms inside a server (create room, list rooms, view room), and for roleplay posts inside a room (create post, list posts with pagination, view post).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Provide backend APIs for character profiles per user, with optional per-server scoping (global character or server-specific character). Include create/edit, list, and view character profiles.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Roleplay Servers",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

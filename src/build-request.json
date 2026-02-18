@@ -1,0 +1,220 @@
+{
+  "kind": "build_request",
+  "title": "Roleplay community app with servers, character profiles, and in-server roleplay rooms",
+  "projectName": "Roleplay Servers",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity sign-in and show authenticated user state (display name, principal) throughout the app UI.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in and sign out using Internet Identity.",
+        "When signed in, the app shows the current user’s identity in the UI (at minimum the principal and a user display name if set).",
+        "Unauthenticated users can browse only public/read-only screens and are prompted to sign in for actions that create or modify content."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create backend data models and stable storage for: users, servers, server membership/roles, roleplay rooms within servers, character profiles, and roleplay posts.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Data persists across canister upgrades using stable storage patterns appropriate for Motoko.",
+        "Each entity has a unique ID and includes createdAt/updatedAt timestamps.",
+        "All write operations are authorized based on the caller principal and server membership role."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Provide backend APIs to create, list, and view servers; join/leave servers; and manage basic server settings (name, description, optional banner image reference).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Authenticated user can create a server and becomes its Owner.",
+        "Users can list servers and view server detail pages.",
+        "Users can request to join a server (default: open join) and leave a server they are a member of.",
+        "Only Owner/Admin can update server settings."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Provide backend APIs for roleplay rooms inside a server (create room, list rooms, view room), and for roleplay posts inside a room (create post, list posts with pagination, view post).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Only server members can create rooms and posts in that server.",
+        "Room list is scoped to a server; post list is scoped to a room.",
+        "Posts include author, optional character used, content, and timestamps.",
+        "Pagination is supported for post listing (e.g., by page size + cursor or offset)."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Provide backend APIs for character profiles per user, with optional per-server scoping (global character or server-specific character). Include create/edit, list, and view character profiles.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Authenticated user can create and edit their own characters only.",
+        "A character can be marked as global or associated to a specific server.",
+        "Character profile includes: name, short bio, traits/tags, and an optional portrait image reference."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Build the main frontend navigation and pages: Server Directory, Server Detail (rooms + join/leave), Room View (post feed + create post), Character Library (create/edit/select character), and User Profile/settings (set display name).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can navigate between directory, server detail, room view, and character library without dead ends.",
+        "UI provides forms for creating servers, rooms, characters, and posts.",
+        "Join/leave server actions update UI state after completion (using React Query invalidations/refetch)."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Enforce server membership roles (Owner/Admin/Member) in both backend authorization and frontend UI affordances (hide/disable actions a user cannot perform).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend rejects unauthorized mutations with clear error messages.",
+        "Frontend does not show admin-only controls to non-admins, and gracefully handles authorization errors if they occur."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Add content safety and moderation basics per server: allow Owner/Admin to delete roleplay posts in their server and to remove members from the server.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Owner/Admin can delete a post; deleted posts are not shown in feeds (or are shown as removed, consistently).",
+        "Owner/Admin can remove a member; removed member loses access to server rooms and posting.",
+        "Actions are audited at least via timestamps and actor principal stored with the moderation action."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Create a coherent visual theme for a roleplay-focused community app (consistent colors, typography, spacing, and component styling) and apply it across all pages. Avoid blue/purple as the primary palette.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "App has a consistent, roleplay-appropriate aesthetic (e.g., warm parchment/ink, tavern/fantasy-inspired or similar).",
+        "Primary UI elements (buttons, cards, inputs, headings) follow the chosen theme across all pages.",
+        "Theme choices are applied consistently using Tailwind and existing UI components (without editing immutable UI component sources)."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Add static generated image assets (logo, default server banner, default character portrait placeholder) to frontend/public/assets/generated and render them in the UI where appropriate.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "create a community app that does roleplay and has servers"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated with the specified filenames.",
+        "App displays the logo in the header/auth area.",
+        "Server pages use the default banner when no custom banner reference is set.",
+        "Character profiles use the default portrait placeholder when no custom portrait reference is set."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (all backend logic in backend/main.mo).",
+    "Do not introduce external databases or third-party auth providers; only Internet Identity is allowed.",
+    "Do not implement real-time chat/WebSockets; roleplay happens via post feeds with manual refresh/refetch.",
+    "Do not modify frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui (compose them instead)."
+  ],
+  "nonGoals": [
+    "Voice/video features.",
+    "Direct messages or real-time chat.",
+    "External integrations (Discord, Twitter, etc.).",
+    "Complex workflow moderation (appeals, reports queue) beyond basic delete/remove actions."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal fantasy parchment-and-quill logo mark with transparent background (rp-logo.dim_512x512.png)",
+      "Wide fantasy parchment banner background with subtle texture, no text (server-banner-default.dim_1600x400.png)",
+      "Character portrait placeholder silhouette in a cameo frame style, transparent background (character-portrait-placeholder.dim_512x512.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

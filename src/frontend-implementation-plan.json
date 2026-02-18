@@ -1,0 +1,298 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Roleplay Servers — Frontend implementation plan",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity sign-in/out UI and display authenticated user identity (display name + principal) across the app, prompting sign-in for mutations.",
+      "acceptanceCriteria": [
+        "User can sign in and sign out using Internet Identity.",
+        "When signed in, the app shows the current user’s identity in the UI (at minimum the principal and a user display name if set).",
+        "Unauthenticated users can browse only public/read-only screens and are prompted to sign in for actions that create or modify content."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Create a login/logout button composed around the existing useInternetIdentity hook; on logout, clear React Query cache to remove user-scoped data. Use the authorization component guidance for login/logout behavior; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/CurrentUserBadge.tsx",
+          "operation": "create",
+          "description": "Create a header badge that shows display name (from getCallerUserProfile when available) and the principal string when authenticated; show guest state otherwise. Use the authorization component guidance for fetching the caller profile; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "create",
+          "description": "Create a first-login profile setup dialog that appears only when authenticated and getCallerUserProfile returns null; allows setting display name via saveCallerUserProfile and prevents modal flash using the authorization component’s recommended loading gating; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "create",
+          "description": "Add a React Query hook that fetches getCallerUserProfile using useActor and exposes loading/isFetched state suitable for gating ProfileSetupDialog. Use the authorization component’s recommended query pattern; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserPrincipal.ts",
+          "operation": "create",
+          "description": "Add a small helper hook to safely derive the current principal string from useInternetIdentity (or return null) for UI and role checks. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the app shell that renders header auth controls (LoginButton + CurrentUserBadge) and mounts the router/layout so authenticated state is visible throughout the UI. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Implement main navigation and required pages: Server Directory, Server Detail, Room View, Character Library, and User Profile/settings with forms for creating servers/rooms/characters/posts and React Query refetch/invalidation for join/leave.",
+      "acceptanceCriteria": [
+        "User can navigate between directory, server detail, room view, and character library without dead ends.",
+        "UI provides forms for creating servers, rooms, characters, and posts.",
+        "Join/leave server actions update UI state after completion (using React Query invalidations/refetch)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/router/Router.tsx",
+          "operation": "create",
+          "description": "Create a lightweight hash-based router (no new dependency) that supports the required routes (directory, server detail, room view, character library, user profile) and route params (serverId, roomId)."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a layout component (header + main container) that includes navigation links to Server Directory, Character Library, and User Profile, and renders child routes. Use shadcn-ui components (e.g., Button, Card, Input) by composing them (do not modify immutable ui sources); verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ServerDirectoryPage.tsx",
+          "operation": "create",
+          "description": "Implement Server Directory: listServers (public/read-only), and an authenticated create-server form using createServer; prompt user to sign in when attempting to create. Use shadcn-ui form components by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ServerDetailPage.tsx",
+          "operation": "create",
+          "description": "Implement Server Detail: getServer, display banner/name/description, listRooms, join/leave actions (joinServer/leaveServer) with React Query invalidation/refetch, and a create-room form (createRoom) gated by membership. Use shadcn-ui components by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/RoomViewPage.tsx",
+          "operation": "create",
+          "description": "Implement Room View: getRoom, listRoleplayPosts feed, create post form using createRoleplayPost (prompt sign-in if unauthenticated; block if not a member). Provide manual refresh/refetch controls (no real-time). Use shadcn-ui components by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CharacterLibraryPage.tsx",
+          "operation": "create",
+          "description": "Implement Character Library: listCharacterProfiles scoped by optional serverId, view character details (getCharacterProfile), create/edit character forms (createCharacterProfile/editCharacterProfile), and a simple selection UI for posting context (client-side selection). Use shadcn-ui components by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/UserProfilePage.tsx",
+          "operation": "create",
+          "description": "Implement User Profile/settings: view current profile (getCallerUserProfile) and edit display name (saveCallerUserProfile). Use shadcn-ui components by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useServers.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for listServers/getServer/createServer/updateServer/joinServer/leaveServer with consistent query keys and invalidation helpers."
+        },
+        {
+          "path": "frontend/src/hooks/useRooms.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for listRooms/getRoom/createRoom with invalidation helpers keyed by serverId."
+        },
+        {
+          "path": "frontend/src/hooks/useRoleplayPosts.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for listRoleplayPosts/getRoleplayPost/createRoleplayPost/deleteRoleplayPost with invalidation helpers keyed by serverId+roomId."
+        },
+        {
+          "path": "frontend/src/hooks/useCharacters.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for listCharacterProfiles/getCharacterProfile/createCharacterProfile/editCharacterProfile keyed by userId and optional serverId."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Router + pages into the app, ensuring navigation paths exist for Server Directory, Server Detail, Room View, Character Library, and User Profile (no orphan pages)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Apply server membership roles (Owner/Admin/Member) to frontend UI affordances so unauthorized controls are hidden/disabled and authorization errors are handled gracefully.",
+      "acceptanceCriteria": [
+        "Backend rejects unauthorized mutations with clear error messages.",
+        "Frontend does not show admin-only controls to non-admins, and gracefully handles authorization errors if they occur."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/serverRoles.ts",
+          "operation": "create",
+          "description": "Add helpers to derive the current user’s ServerRole from Server.memberships and the current principal, and booleans like canEditServer/canModeratePosts/canRemoveMembers."
+        },
+        {
+          "path": "frontend/src/components/common/RequireAuthInline.tsx",
+          "operation": "create",
+          "description": "Create a small component to wrap mutation controls: if unauthenticated, show a sign-in prompt/disabled state; if authenticated, render children. Use the authorization component guidance for prompting sign-in and guest behavior; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/common/ErrorNotice.tsx",
+          "operation": "create",
+          "description": "Create a reusable error notice component for displaying authorization failures and other mutation errors in a consistent, non-crashing way. Use shadcn-ui Alert components by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ServerDetailPage.tsx",
+          "operation": "modify",
+          "description": "Hide/disable server settings and create-room controls based on derived ServerRole; handle authorization errors from failed mutations by displaying ErrorNotice instead of breaking navigation."
+        },
+        {
+          "path": "frontend/src/pages/RoomViewPage.tsx",
+          "operation": "modify",
+          "description": "Hide/disable create-post controls for non-members; handle authorization errors gracefully and keep the post feed usable (read-only)."
+        },
+        {
+          "path": "frontend/src/pages/ServerDirectoryPage.tsx",
+          "operation": "modify",
+          "description": "Gate create-server form behind authentication (RequireAuthInline) and handle authorization errors gracefully."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Add basic moderation UI per server for Owner/Admin: delete roleplay posts and remove members, with consistent UI behavior after actions.",
+      "acceptanceCriteria": [
+        "Owner/Admin can delete a post; deleted posts are not shown in feeds (or are shown as removed, consistently).",
+        "Owner/Admin can remove a member; removed member loses access to server rooms and posting.",
+        "Actions are audited at least via timestamps and actor principal stored with the moderation action."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/moderation/DeletePostButton.tsx",
+          "operation": "create",
+          "description": "Create a post-level moderation control that calls deleteRoleplayPost, shows a confirmation, and triggers React Query invalidation/refetch for the room post feed. Use shadcn-ui Dialog/Button by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/moderation/RemoveMemberButton.tsx",
+          "operation": "create",
+          "description": "Create a member-level moderation control that calls removeMember, shows confirmation, and invalidates/refetches server detail/membership data. Use shadcn-ui Dialog/Button by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/RoomViewPage.tsx",
+          "operation": "modify",
+          "description": "Render DeletePostButton for posts only when the current user is Owner/Admin (via role helper). Ensure UI updates after deletion by invalidating/refetching listRoleplayPosts."
+        },
+        {
+          "path": "frontend/src/pages/ServerDetailPage.tsx",
+          "operation": "modify",
+          "description": "Add a Members section that lists current memberships and renders RemoveMemberButton for removable members when current user is Owner/Admin; ensure UI updates after removal by invalidating/refetching getServer/listRooms as needed."
+        },
+        {
+          "path": "frontend/src/hooks/useRoleplayPosts.ts",
+          "operation": "modify",
+          "description": "Add mutation wiring for deleteRoleplayPost with consistent query invalidation for room post feeds and post detail queries."
+        },
+        {
+          "path": "frontend/src/hooks/useServers.ts",
+          "operation": "modify",
+          "description": "Add mutation wiring for removeMember with consistent query invalidation for server detail and related lists."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Implement a cohesive roleplay-themed visual design (warm parchment/ink aesthetic) using Tailwind and existing UI components, avoiding blue/purple as primary colors.",
+      "acceptanceCriteria": [
+        "App has a consistent, roleplay-appropriate aesthetic (e.g., warm parchment/ink, tavern/fantasy-inspired or similar).",
+        "Primary UI elements (buttons, cards, inputs, headings) follow the chosen theme across all pages.",
+        "Theme choices are applied consistently using Tailwind and existing UI components (without editing immutable UI component sources)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create global CSS variables and base styles used by the Tailwind theme to establish a warm parchment/ink palette (non-blue/purple primary), consistent typography, and spacing. Ensure shadcn-ui tokens align via CSS variables (do not modify immutable ui component sources). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust/extend theme tokens if needed to support the parchment/ink palette and typography, keeping primary color away from blue/purple and ensuring consistency across components."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "modify",
+          "description": "Apply consistent themed layout styling (background, headers, cards) using Tailwind utility classes and shadcn-ui components by composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ServerDirectoryPage.tsx",
+          "operation": "modify",
+          "description": "Apply themed component styling (cards, headings, form controls) using Tailwind + shadcn-ui composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ServerDetailPage.tsx",
+          "operation": "modify",
+          "description": "Apply themed styling to server banner area, rooms list, and actions using Tailwind + shadcn-ui composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/RoomViewPage.tsx",
+          "operation": "modify",
+          "description": "Apply themed styling to post feed and composer using Tailwind + shadcn-ui composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CharacterLibraryPage.tsx",
+          "operation": "modify",
+          "description": "Apply themed styling to character list/detail and forms using Tailwind + shadcn-ui composition; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/UserProfilePage.tsx",
+          "operation": "modify",
+          "description": "Apply themed styling to settings form using Tailwind + shadcn-ui composition; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Add required generated static images under frontend/public/assets/generated and render them in the UI (logo in header, default server banner, default character portrait placeholder).",
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated with the specified filenames.",
+        "App displays the logo in the header/auth area.",
+        "Server pages use the default banner when no custom banner reference is set.",
+        "Character profiles use the default portrait placeholder when no custom portrait reference is set."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/rp-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated logo asset at frontend/public/assets/generated/rp-logo.dim_512x512.png and ensure it is referenced by UI where required."
+        },
+        {
+          "path": "frontend/public/assets/generated/server-banner-default.dim_1600x400.png",
+          "operation": "create",
+          "description": "Add the generated default server banner asset at frontend/public/assets/generated/server-banner-default.dim_1600x400.png and ensure it is used as a fallback when a server has no bannerImageUrl."
+        },
+        {
+          "path": "frontend/public/assets/generated/character-portrait-placeholder.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated character portrait placeholder asset at frontend/public/assets/generated/character-portrait-placeholder.dim_512x512.png and ensure it is used as a fallback when a character has no avatarImageUrl."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "modify",
+          "description": "Render the logo image from frontend/public/assets/generated/rp-logo.dim_512x512.png in the header/auth area and ensure sizing/alt text aligns with the theme. Use shadcn-ui composition where applicable; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ServerDetailPage.tsx",
+          "operation": "modify",
+          "description": "Render the server banner using server.bannerImageUrl when present, otherwise fall back to frontend/public/assets/generated/server-banner-default.dim_1600x400.png."
+        },
+        {
+          "path": "frontend/src/pages/CharacterLibraryPage.tsx",
+          "operation": "modify",
+          "description": "Render character avatar using profile.avatarImageUrl when present, otherwise fall back to frontend/public/assets/generated/character-portrait-placeholder.dim_512x512.png."
+        },
+        {
+          "path": "frontend/src/components/auth/CurrentUserBadge.tsx",
+          "operation": "modify",
+          "description": "Optionally render the user avatar if available in profile (if used in UI), falling back to frontend/public/assets/generated/character-portrait-placeholder.dim_512x512.png to keep visual consistency."
+        }
+      ]
+    }
+  ]
+}

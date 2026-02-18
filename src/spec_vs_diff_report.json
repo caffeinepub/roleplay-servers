@@ -1,0 +1,109 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-18T01:36:44.438Z",
+  "summary": "The diff adds substantial frontend scaffolding (auth UI, routing, pages, theme CSS, moderation buttons, React Query hooks) and a new single-actor Motoko backend with core types and some APIs, but several BuildRequest acceptance criteria are not evidenced in the provided diff summary—especially timestamps/stable persistence, principal display in UI, and some required character/profile fields and post pagination/auditing details.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "When signed in, the app shows the current user’s identity in the UI (at minimum the principal and a user display name if set).",
+      "reason": "The CurrentUserBadge shows a display name but does not display the principal anywhere in the shown UI code.",
+      "evidence": [
+        "frontend/src/components/auth/CurrentUserBadge.tsx"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Each entity has a unique ID and includes createdAt/updatedAt timestamps; data persists across canister upgrades using stable storage patterns.",
+      "reason": "In the shown backend type definitions, entities (e.g., Server, Room, CharacterProfile) do not include createdAt/updatedAt fields, and the storage shown uses in-memory Map.empty without any stable storage evidence in the truncated snippet.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Roleplay posts include author, optional character used, content, and timestamps; pagination is supported for post listing.",
+      "reason": "The RoleplayPost type shown lacks an optional character reference, and the frontend RoomViewPage uses a full posts list (sorted in-memory) with no pagination controls/parameters evidenced in the shown code.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/RoomViewPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Character profile includes: name, short bio, traits/tags, and an optional portrait image reference; supports optional per-server scoping (global or server-specific).",
+      "reason": "CharacterProfile in the backend uses fields (description, appearance, avatarImageUrl, serverId) but does not evidence traits/tags or a distinct short bio field as specified. (Server scoping via serverId is present.)",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/CharacterLibraryPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Moderation actions (delete post, remove member) are audited at least via timestamps and actor principal stored with the moderation action.",
+      "reason": "Frontend moderation buttons exist, but the backend snippet does not evidence any moderation audit record (timestamp + moderator principal) being stored when deletes/removals occur.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/moderation/DeletePostButton.tsx",
+        "frontend/src/components/moderation/RemoveMemberButton.tsx"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Generated images exist under frontend/public/assets/generated with the specified filenames.",
+      "reason": "The UI references the logo at /assets/generated/rp-logo.dim_512x512.png, but the diff summary does not show the actual image files being added under frontend/public/assets/generated (files may be in the 'omitted files due to limits' set, so absence is not definitively proven).",
+      "evidence": [
+        "frontend/src/components/layout/AppLayout.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Access-control initialization via a secret URL parameter (caffeineAdminToken) and calling a private actor method _initializeAccessControlWithSecret.",
+      "reason": "The BuildRequest does not request an admin secret token mechanism or URL-parameter based access control initialization; it only specifies Internet Identity auth and no third-party auth providers.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "Footer includes an external promotional link to caffeine.ai with UTM parameters.",
+      "reason": "External promotional integration is not requested by the BuildRequest and could be considered an unrequested external integration element.",
+      "evidence": [
+        "frontend/src/components/layout/AppLayout.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/CurrentUserBadge.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupDialog.tsx",
+    "frontend/src/components/common/ErrorNotice.tsx",
+    "frontend/src/components/common/RequireAuthInline.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/components/moderation/DeletePostButton.tsx",
+    "frontend/src/components/moderation/RemoveMemberButton.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useCurrentUserPrincipal.ts",
+    "frontend/src/hooks/useHashRouter.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/serverRoles.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/CharacterLibraryPage.tsx",
+    "frontend/src/pages/RoomViewPage.tsx",
+    "frontend/src/pages/ServerDetailPage.tsx",
+    "frontend/src/pages/ServerDirectoryPage.tsx",
+    "frontend/src/pages/UserProfilePage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

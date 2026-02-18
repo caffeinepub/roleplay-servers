@@ -1,0 +1,147 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-sign-in-and-show-authenticated-user-state-display-name-principal-throughout-the-app-ui",
+      "featureTitle": "Implement Internet Identity sign-in and show authenticated user state (display name, principal) throughout the app UI.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/CurrentUserBadge.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/hooks/useCurrentUserPrincipal.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-the-main-frontend-navigation-and-pages-server-directory-server-detail-rooms-join-leave-room-view-post-feed-create-post-character-library-create-edit-select-character-and-user-profile-settings-set-display-name",
+      "featureTitle": "Build the main frontend navigation and pages: Server Directory, Server Detail (rooms + join/leave), Room View (post feed + create post), Character Library (create/edit/select character), and User Profile/settings (set display name).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/pages/CharacterLibraryPage.tsx",
+        "frontend/src/pages/RoomViewPage.tsx",
+        "frontend/src/pages/ServerDetailPage.tsx",
+        "frontend/src/pages/ServerDirectoryPage.tsx",
+        "frontend/src/pages/UserProfilePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-enforce-server-membership-roles-owner-admin-member-in-both-backend-authorization-and-frontend-ui-affordances-hide-disable-actions-a-user-cannot-perform",
+      "featureTitle": "Enforce server membership roles (Owner/Admin/Member) in both backend authorization and frontend UI affordances (hide/disable actions a user cannot perform).",
+      "files": [
+        "frontend/src/components/common/ErrorNotice.tsx",
+        "frontend/src/components/common/RequireAuthInline.tsx",
+        "frontend/src/lib/serverRoles.ts",
+        "frontend/src/pages/RoomViewPage.tsx",
+        "frontend/src/pages/ServerDetailPage.tsx",
+        "frontend/src/pages/ServerDirectoryPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-content-safety-and-moderation-basics-per-server-allow-owner-admin-to-delete-roleplay-posts-in-their-server-and-to-remove-members-from-the-server",
+      "featureTitle": "Add content safety and moderation basics per server: allow Owner/Admin to delete roleplay posts in their server and to remove members from the server.",
+      "files": [
+        "frontend/src/components/moderation/DeletePostButton.tsx",
+        "frontend/src/components/moderation/RemoveMemberButton.tsx",
+        "frontend/src/pages/RoomViewPage.tsx",
+        "frontend/src/pages/ServerDetailPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-coherent-visual-theme-for-a-roleplay-focused-community-app-consistent-colors-typography-spacing-and-component-styling-and-apply-it-across-all-pages-avoid-blue-purple-as-the-primary-palette",
+      "featureTitle": "Create a coherent visual theme for a roleplay-focused community app (consistent colors, typography, spacing, and component styling) and apply it across all pages. Avoid blue/purple as the primary palette.",
+      "files": [
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/CharacterLibraryPage.tsx",
+        "frontend/src/pages/RoomViewPage.tsx",
+        "frontend/src/pages/ServerDetailPage.tsx",
+        "frontend/src/pages/ServerDirectoryPage.tsx",
+        "frontend/src/pages/UserProfilePage.tsx",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-static-generated-image-assets-logo-default-server-banner-default-character-portrait-placeholder-to-frontend-public-assets-generated-and-render-them-in-the-ui-where-appropriate",
+      "featureTitle": "Add static generated image assets (logo, default server banner, default character portrait placeholder) to frontend/public/assets/generated and render them in the UI where appropriate.",
+      "files": [
+        "frontend/src/components/auth/CurrentUserBadge.tsx",
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/pages/CharacterLibraryPage.tsx",
+        "frontend/src/pages/ServerDetailPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

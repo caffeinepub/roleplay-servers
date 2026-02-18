@@ -1,0 +1,22 @@
+{
+  "frontend/src/App.tsx": "Main application component that handles routing, authentication state, profile setup dialog, and theme provider initialization.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including servers, rooms, posts, characters, and user profiles with proper invalidation logic.",
+  "frontend/src/hooks/useHashRouter.ts": "Lightweight hash-based router implementation supporting routes and query parameters without external dependencies.",
+  "frontend/src/hooks/useCurrentUserPrincipal.ts": "Helper hook that safely extracts the current user's principal string from Internet Identity or returns null.",
+  "frontend/src/components/auth/LoginButton.tsx": "Login/logout button component with loading states and query cache clearing on logout.",
+  "frontend/src/components/auth/CurrentUserBadge.tsx": "Displays current user's avatar and display name or guest status in the header.",
+  "frontend/src/components/auth/ProfileSetupDialog.tsx": "First-time profile setup dialog that appears when authenticated user has no profile, now using undefined instead of null for optional fields.",
+  "frontend/src/components/layout/AppLayout.tsx": "Main layout component with header navigation, logo, auth controls, and footer with attribution.",
+  "frontend/src/components/common/RequireAuthInline.tsx": "Inline authentication gate component with optional children prop that shows sign-in prompt for unauthenticated users.",
+  "frontend/src/components/common/ErrorNotice.tsx": "Reusable error alert component for displaying authorization failures and mutation errors.",
+  "frontend/src/components/moderation/DeletePostButton.tsx": "Moderation control for deleting roleplay posts with confirmation dialog and query invalidation.",
+  "frontend/src/components/moderation/RemoveMemberButton.tsx": "Moderation control for removing server members with confirmation dialog and query invalidation.",
+  "frontend/src/lib/serverRoles.ts": "Helper functions for determining user roles and permissions within servers (owner/admin/member checks).",
+  "frontend/src/pages/ServerDirectoryPage.tsx": "Server directory page displaying all servers with create server dialog and navigation to server details.",
+  "frontend/src/pages/ServerDetailPage.tsx": "Server detail page showing banner, rooms list, member management, and join/leave functionality.",
+  "frontend/src/pages/RoomViewPage.tsx": "Room view page displaying roleplay post feed with create post form and moderation controls.",
+  "frontend/src/pages/CharacterLibraryPage.tsx": "Character library page for creating, viewing, and editing character profiles with avatar placeholders, now using undefined for optional fields.",
+  "frontend/src/pages/UserProfilePage.tsx": "User profile settings page for editing display name, bio, and viewing principal ID, now using undefined for optional fields.",
+  "frontend/src/index.css": "Global styles with warm parchment/ink OKLCH color palette for both light and dark modes, avoiding blue/purple primaries.",
+  "frontend/tailwind.config.js": "Tailwind configuration with custom fonts (Inter, Merriweather) and extended theme tokens matching the roleplay aesthetic."
+}
